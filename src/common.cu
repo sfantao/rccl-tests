@@ -516,6 +516,9 @@ testResult_t CheckData(struct threadArgs* args, ncclDataType_t type, ncclRedOp_t
 }
 
 testResult_t testStreamSynchronize(int nStreams, hipStream_t* streams, ncclComm_t* comms) {
+  HIPCHECK(hipDeviceSynchronize());  
+  return testSuccess;
+#if 0
   hipError_t hipErr;
   int remaining = nStreams;
   int* done = (int*)malloc(sizeof(int)*nStreams);
@@ -556,6 +559,7 @@ testResult_t testStreamSynchronize(int nStreams, hipStream_t* streams, ncclComm_
   }
   free(done);
   return testSuccess;
+#endif
 }
 
 testResult_t startColl(struct threadArgs* args, ncclDataType_t type, ncclRedOp_t opIndex, int root, int in_place, int iter) {
